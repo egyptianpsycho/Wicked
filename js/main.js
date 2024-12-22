@@ -15,35 +15,44 @@ const animate = ScrollReveal({
 animate.reveal('.nav,.heading,.subscribe p,.email-box'); 
 animate.reveal('.home-layer1,.home-layer2,.subscribe img', {origin: 'left'}); 
 animate.reveal('.home-content', {origin: 'bottom'}); 
-animate.reveal('.deal-box,.offer-box,sale-box,.ticket-box,footer-box', {interval : 100}); 
-// (swiper)
-var swiper = new Swiper(".selling-content", {
-    spaceBetween: 20,
-    centeredSlides: false,
-    autoplay: {
-      delay: 7500,
-      disableOnInteraction: false,
-    },
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-    breakpoints: {
-        280: {
-            slidesPerView:1,
-            spaceBetween:10,
-        },
-        510: {
-            slidesPerView:2,
-            spaceBetween:10,
-        },
-        750: {
-            slidesPerView:3,
-            spaceBetween:15,
-        },
-        900: {
-            slidesPerView:4,
-            spaceBetween:20,
-        },
+animate.reveal('.deal-box,.offer-box,.sale-box,.ticket-box,footer-box', {interval : 100}); 
+
+const cartBtns = document.querySelectorAll('.addcart'); 
+cartBtns.forEach(cartbtn => {
+    cartbtn.addEventListener('click', (event) =>{
+        event.preventDefault();
+        const name = cartbtn.getAttribute('data-name');
+        const price = cartbtn.getAttribute('data-price');
+        const img = cartbtn.getAttribute('data-img');
+        addToCart(name, price,img);
+    });
+});
+let cart = [];
+let total = 0;
+function addToCart(pName,pPrice,pImg){
+    cart.push({name:pName , price:pPrice ,img:pImg});
+    total += Number(pPrice);
+    renderCart();
+}
+function renderCart() {
+    const cartContainer = document.querySelector('.cart-content');
+    const totalPrice = document.getElementById('totalPrice');
+    cartContainer.innerHTML = '';
+    cart.forEach(item => {
+        const cartItem = document.createElement('div');
+        cartItem.classList.add('cart-item');
+        cartItem.innerHTML = `
+        <div class="cart-info">
+        <img src=${item.img} alt="">
+        <h3>${item.name}</h3>
+        <span>Price: $${item.price}</span>
+        <a href="#" class="btn">Remove</a>
+        </div>
+        `;
+        cartContainer.appendChild(cartItem);
+    });
+    if(totalPrice.textContent !== null){
+        totalPrice.textContent = `Total: $${total}`;
     }
-  });
+
+}
