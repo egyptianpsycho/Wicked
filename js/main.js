@@ -58,13 +58,13 @@ function renderCart() {
 }
 document.addEventListener('DOMContentLoaded', () => {
     const sideBar = document.querySelector('.side-bar');
-    const closeBtn = document.querySelector('.close-btn');
+    const closeDiv = document.querySelector('.move');
 
     menu.addEventListener('click', () => {
         sideBar.classList.toggle('active');
     });
 
-    closeBtn.addEventListener('click', () => {
+    closeDiv.addEventListener('click', () => {
         sideBar.classList.remove('active');
         menu.classList.remove('move');
     });
